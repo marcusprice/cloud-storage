@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./bin/syncDB; node app"   
+    "start": "node ./bin/syncDB; node app"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +17,7 @@
   "dependencies": {
     "chai": "^4.2.0",
     "express": "^4.17.1",
+    "express-session": "^1.17.0",
     "mocha": "^6.2.2",
     "pg": "^7.14.0",
     "pg-hstore": "^2.3.3",

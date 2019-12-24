@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const port = process.env.PORT || 5000
+const session = require('express-session')
 
 //sets static files to to the client build directory
 app.use(express.static(__dirname + '/client/build'))
