@@ -26,7 +26,32 @@ app.get('/', (req, res) => {
 
 //login endpoint
 app.post('/login', (req, res) => {
+  let output
+  if(req.session.loggedIn) {
+    //if user is already logged in skip the password check
+    output = { loggedIn: true }
+  } else {
+    //email, password & validation vars
+    let email = req.body.email
+    let password = req.body.password
+    let validated = false
 
+    //check if password is correct
+    validated = user.validate(email, password)
+    if(validated.success) {
+      //user is validated, set logged in session to true
+      req.session.loggedIn = true
+
+      //return logged in true object
+      output = { loggedIn: true }
+    } else {
+      //return logged in false object with reason why it wasn't validated
+      output = { loggedIn: false, reason: validated.reason }
+    }
+  }
+
+  //send result back
+  res.json(output)
 })
 
 //check if user is logged in
@@ -43,7 +68,7 @@ app.get('/loginCheck', (req, res) => {
     output = {loggedIn: true}
   }
 
-  res.json(loginStatus)
+  res.json(output)
 })
 
 app.listen(port, () => {
