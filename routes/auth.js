@@ -21,8 +21,11 @@ module.exports = (app) => {
   //login endpoint
   //TODO: send directory data
   app.post('/login', async (req, res) => {
+    //login status & output variable
+    const loginStatus = req.session.loggedIn
     let output
-    if(req.session.loggedIn) {
+
+    if(loginStatus) {
       //if user is already logged in skip the password check
       output = { loggedIn: true }
     } else {
@@ -33,7 +36,7 @@ module.exports = (app) => {
 
       result = await user.validate(email, password)
 
-      if(result.success) {
+      if(result.validated) {
         //user is validated, set logged in session to true
         req.session.loggedIn = true
 
@@ -47,5 +50,10 @@ module.exports = (app) => {
 
     //send result back
     res.json(output)
+  })
+
+  app.get('/logout', (req, res) => {
+    req.session.loggedIn = false
+    res.json({loggedOut: true})
   })
 }
