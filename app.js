@@ -19,7 +19,6 @@ app.use(session({
 app.use(express.static(__dirname + '/client/build'))
 //to parse post requests
 app.use(bodyParser.json())
-//parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 
 //send client app

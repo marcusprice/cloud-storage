@@ -1,44 +1,41 @@
-import React from 'react';
-import {
-  Container, LoginContainer, LoginCard, LoginFormTitleContainer,
-  PageTitle, LoginForm, LoginLabelBlock, LoginLabel, LoginInput, LoginCheckbox,
-  LoginSubmit, LoginFormSubContainer
-} from './components/atoms'
+import React, { useState, useEffect } from 'react'
+import LandingForm from './components/LandingForm'
 import './App.css'
-import cloudIcon from './assets/icons/cloud-icon.png'
 
 const App = () => {
-  return (
-    <Container>
-      <LoginContainer>
-        <LoginCard>
-          <LoginFormTitleContainer>
-            <img src={cloudIcon} alt="cloud icon" />
 
-            <PageTitle>Cloud Storage</PageTitle>
-          </LoginFormTitleContainer>
-          <LoginForm>
-            <LoginLabelBlock>
-              Email
-              <LoginInput type="email"/>
-            </LoginLabelBlock>
-            <LoginLabelBlock>
-              Password
-              <LoginInput type="password"/>
-            </LoginLabelBlock>
-            <LoginFormSubContainer>
-              <LoginLabel>
-                Remember Me
-                <LoginCheckbox type="checkbox"/>
-              </LoginLabel>
-              <LoginLabel>
-                <LoginSubmit type="submit" value="Login" />
-              </LoginLabel>
-            </LoginFormSubContainer>
-          </LoginForm>
-        </LoginCard>
-      </LoginContainer>
-    </Container>
+  //stores user's login status
+  const [loggedIn, setLoggedIn] = useState(false)
+
+  //runs once on load to see if the user is logged in
+  useEffect(() => {
+    //check to see if the user is logged in
+    fetch('/loginCheck')
+      .then(response => response.json())
+      .then((result) => {
+        console.log(result)
+        setLoggedIn(result.loggedIn)
+      })
+  }, [])
+
+  const setLoginStatus = (status) => {
+    setLoggedIn(status)
+  }
+
+  //determines what to display based on login status
+  const handleDisplay = () => {
+    let output
+    if(!loggedIn) {
+      output = <LandingForm setLoginStatus={setLoginStatus} />
+    } else {
+      output = <h1>Logged In</h1>
+    }
+
+    return output
+  }
+
+  return (
+    handleDisplay()
   )
 }
 

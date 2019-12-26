@@ -25,7 +25,6 @@ export const LoginContainer = styled.div`
 export const LoginCard = styled.div`
   background: #fff;
   width: 500px;
-  border: solid #ccc 1px;
   border-radius: 15px;
   padding: 32px 64px;
 `
