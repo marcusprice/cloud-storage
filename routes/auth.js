@@ -5,9 +5,14 @@ module.exports = (app) => {
   app.get('/loginCheck', (req, res) => {
     //login status & output variable
     const loginStatus = req.session.loggedIn
+    const rememberMe = req.session.rememberMe
     let output
 
-    if(!loginStatus) {
+    if(!loginStatus || !rememberMe) {
+      //the user either isn't logged in or has remember me set to false
+      //set login status session to false (in the case that remember me wasn't selected)
+      req.session.loggedIn = false
+
       //if the login status is either undefined or false return false object to client
       output = {loggedIn: false}
     } else {
@@ -19,7 +24,7 @@ module.exports = (app) => {
   })
 
   //login endpoint
-  //TODO: send directory data
+  //TODO: filter post variables/send directory data
   app.post('/login', async (req, res) => {
     //login status & output variable
     const loginStatus = req.session.loggedIn
@@ -32,14 +37,14 @@ module.exports = (app) => {
       //email, password & validation vars
       let email = req.body.email
       let password = req.body.password
-      let validated = false
-
-      result = await user.validate(email, password)
+      let rememberMe = req.body.rememberMe
+      //validate user
+      let result = await user.validate(email, password)
 
       if(result.validated) {
-        //user is validated, set logged in session to true
+        //user is validated, set logged in session to true & remember me to their preference
         req.session.loggedIn = true
-
+        req.session.rememberMe = rememberMe
         //return logged in true object
         output = { loggedIn: true }
       } else {
@@ -54,6 +59,7 @@ module.exports = (app) => {
 
   app.get('/logout', (req, res) => {
     req.session.loggedIn = false
-    res.json({loggedOut: true})
+    req.session.rememberMe = false
+    res.json({ loggedOut: true })
   })
 }

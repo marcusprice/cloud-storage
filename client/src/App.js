@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import LandingForm from './components/LandingForm'
+import Dashboard from './components/Dashboard'
 import './App.css'
 
 const App = () => {
@@ -13,8 +14,10 @@ const App = () => {
     fetch('/loginCheck')
       .then(response => response.json())
       .then((result) => {
-        console.log(result)
-        setLoggedIn(result.loggedIn)
+        if(result.loggedIn) {
+          //if the user is logged in set the logged in state to true
+          setLoggedIn(true)
+        }
       })
   }, [])
 
@@ -28,7 +31,7 @@ const App = () => {
     if(!loggedIn) {
       output = <LandingForm setLoginStatus={setLoginStatus} />
     } else {
-      output = <h1>Logged In</h1>
+      output = <Dashboard setLoginStatus={setLoginStatus} />
     }
 
     return output

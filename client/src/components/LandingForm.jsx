@@ -6,17 +6,31 @@ import {
 } from './atoms'
 import cloudIcon from '../assets/icons/cloud-icon.png'
 
-const LandingForm = () => {
+const LandingForm = (props) => {
   let [email, setEmail] = useState('')
   let [password, setPassword] = useState('')
   let [rememberMe, setRememberMe] = useState(false)
 
   //logs user in
   const login = (event) => {
+    //prevent page reload
     event.preventDefault()
-    console.log({email: email, password: password, rememberMe: rememberMe})
-    //endpoint requires email & password
-    //fetch('/login', {method: 'POST'})
+
+    fetch('/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({email: email, password: password, rememberMe: rememberMe})
+    })
+      .then(response => response.json())
+      .then((result) => {
+        console.log(result)
+        if(result.loggedIn) {
+          //if the user was validated set login status to true in parent component
+          props.setLoginStatus(true)
+        }
+      })
   }
 
   return(
@@ -40,7 +54,11 @@ const LandingForm = () => {
             <LoginFormSubContainer>
               <LoginLabel>
                 Remember Me
-                <LoginCheckbox value={rememberMe} type="checkbox" onChange={(event) => {setRememberMe(event.target.value)}} />
+                <LoginCheckbox
+                  checked={rememberMe}
+                  type="checkbox"
+                  onChange={(event) => {setRememberMe(event.target.checked)}}
+                />
               </LoginLabel>
               <LoginLabel>
                 <LoginSubmit type="submit" value="Login" />

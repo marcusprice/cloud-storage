@@ -1,10 +1,10 @@
 //TODO: write doc header
 const User = require('../models/db').User
 
-const validate = (email, enteredPassword, callback) => {
+const validate = (email, enteredPassword) => {
   return new Promise((resolve, reject) => {
     //set default output
-    let output = {validated: false, reason: null}
+    let output = { validated: false }
 
     //get user from db
     User.findOne({where: {email: email}})
