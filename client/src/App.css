@@ -2,11 +2,18 @@
   box-sizing: border-box;
 }
 
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
 body {
   margin: 0;
   padding: 0;
   height: 100vh;
-  background: #fff;
+  background: #F0F4F8;
 }
 
 #root {

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Container } from './components/atoms'
 import LandingForm from './components/LandingForm'
 import Dashboard from './components/Dashboard'
 import './App.css'
@@ -6,7 +7,7 @@ import './App.css'
 const App = () => {
 
   //stores user's login status
-  const [loggedIn, setLoggedIn] = useState(false)
+  const [loggedIn, setLoggedIn] = useState(true)
 
   //runs once on load to see if the user is logged in
   useEffect(() => {
@@ -38,7 +39,9 @@ const App = () => {
   }
 
   return (
-    handleDisplay()
+    <Container>
+      {handleDisplay()}
+    </Container>
   )
 }
 

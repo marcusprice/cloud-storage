@@ -1,21 +1,22 @@
 import React from 'react'
+import { DashboardContainer } from './atoms'
+import Directory from './Directory'
 
 const Dashboard = (props) => {
-  const logout = () => {
-    fetch('/logout')
-      .then(response => response.json())
-      .then((result) => {
-        if(result.loggedOut) {
-          props.setLoginStatus(false)
-        }
-      })
-  }
+  // const logout = () => {
+  //   fetch('/logout')
+  //     .then(response => response.json())
+  //     .then((result) => {
+  //       if(result.loggedOut) {
+  //         props.setLoginStatus(false)
+  //       }
+  //     })
+  // }
 
   return(
-    <div>
-      <h1>Logged In</h1>
-      <button onClick={() => {logout()}}>Logout</button>
-    </div>
+    <DashboardContainer>
+      <Directory />
+    </DashboardContainer>
   )
 }
 
